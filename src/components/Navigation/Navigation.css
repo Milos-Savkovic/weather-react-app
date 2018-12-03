@@ -1,0 +1,9 @@
+.navigation a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.navigation :hover {
+  opacity: 0.4;
+}
