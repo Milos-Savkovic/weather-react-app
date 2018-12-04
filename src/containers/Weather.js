@@ -4,10 +4,7 @@ import '../App.css';
 import UserForm from '../components/UserForm/User';
 import axios from 'axios';
 import CardContainer from '../components/CityCardContainer/CityCardContainer';
-import Spinner from '../components/Spinner/Spinner';
-import { Input } from 'antd';
-
-const Search = Input.Search;
+// import Spinner from '../components/Spinner/Spinner';
 
 const URL = 'http://api.openweathermap.org/data/2.5/weather?q=';
 const apiKey = '&appid=9c032a32e98184017aa37fbf6e37538a';
@@ -23,9 +20,20 @@ class App extends Component {
     this.getCity();
   }
 
+  // removeCityHandler = (index) => {
+  //   const weatherData = this.state.weatherData;
+  //   weatherData.slice(1, index)
+  //   this.setState({ weatherData })
+  // }
+
+  removeCityHandler = () => {
+    return console.log('You just clicked me');
+    const dataId = [...this.state.weatherData];
+  };
+
   render() {
     const {
-      state: { showCard, weatherData, loading },
+      state: { showCard, weatherData },
       getWeather,
       getCity
     } = this;
@@ -37,7 +45,12 @@ class App extends Component {
     return (
       <div className="main-wrapper">
         <UserForm getWeather={getWeather} getCity={getCity} />
-        <CardContainer weatherData={weatherData} showCard={showCard} />
+        <CardContainer
+          weatherData={weatherData}
+          showCard={showCard}
+          removeCityHandler={this.removeCityHandler}
+          // removeCityHandler={() => this.removeCityHandler(index)}
+        />
       </div>
     );
   }
@@ -95,22 +108,22 @@ class App extends Component {
         `${'https://cors-anywhere.herokuapp.com/'}https://weather-app-add29.firebaseio.com/cities.json`
       )
       .then(response => {
-        console.log('GETCITY RESPONSE ERROR', response);
+        // console.log('GETCITY RESPONSE ERROR', response);
         if (response.status !== 200) {
           throw Error(response.statusText);
         }
         return response;
       })
       .then(response => {
-        console.log('GET CITY RESPONSE', response);
+        // console.log('GET CITY RESPONSE', response);
         const { data = null } = response;
         if (data) {
           const weatherData = Object.keys(data).map(key => {
-            console.log('DATA [KEY]', data[key]);
-            console.log(
-              'DATA KEY CITY STATUS PRESSURE PRESSURE',
-              data[key].cityStatus
-            );
+            // console.log('DATA [KEY]', data[key]);
+            // console.log(
+            //   'DATA KEY CITY STATUS PRESSURE PRESSURE',
+            //   data[key].cityStatus
+            // );
             return {
               id: key,
               weather: data[key].cityStatus.weather,
@@ -121,7 +134,7 @@ class App extends Component {
               cityName: data[key].cityStatus.cityName
             };
           });
-          console.log('GET CITY WEATHERDATA', weatherData);
+          // console.log('GET CITY WEATHERDATA', weatherData);
           this.setState({ weatherData: weatherData.reverse(), loading: false });
           console.log(
             'THIS STATE WEATHERDATA DATA WEATHERDATA',

@@ -3,7 +3,7 @@ import React from 'react';
 import './CityCardContainer.css';
 import CityCard from './CityCard/CityCard';
 
-const CardContainer = ({ showCard, weatherData }) => (
+const CardContainer = ({ showCard, weatherData, removeCityHandler }) => (
   <div className="container">
     {/* { showCard ?
    <CityCard
@@ -25,6 +25,8 @@ const CardContainer = ({ showCard, weatherData }) => (
           minTemp={weatherCity.minTemp}
           cityName={weatherCity.cityName}
           key={weatherCity.id}
+          removeCityHandler={removeCityHandler}
+          // removeCityHandler={() removeCityHandler(index)}
         />
       );
     })}
