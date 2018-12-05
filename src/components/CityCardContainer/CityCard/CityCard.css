@@ -1,15 +1,21 @@
-.card {
+.card-wrapper {
   /* height: 200px;
   width: 120px; */
-  position: relative;
+  /* position: relative;
   padding: 20px;
   margin: 0;
-  border: 4px solid #2f3542;
-  margin: 10px;
-  width: 400px;
-  border-radius: 10px;
+  border: 4px solid #2f3542; */
+  margin: 20px;
+  position: relative;
+  z-index: 10px !important;
+  /* width: 400px;
+  border-radius: 10px; */
   /* height: 80%; */
   /* width: 200px; */
+}
+
+.card {
+  position: relative;
 }
 
 .main li {
@@ -26,8 +32,8 @@
   border-radius: 100%;
   height: 30px;
   width: 30px;
-  z-index: 10px;
-  background-color: red;
+  background-color: rgb(255, 0, 0);
   color: white;
   cursor: pointer;
+  padding-bottom: 35px;
 }

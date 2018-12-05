@@ -4,7 +4,7 @@ import '../App.css';
 import UserForm from '../components/UserForm/User';
 import axios from 'axios';
 import CardContainer from '../components/CityCardContainer/CityCardContainer';
-// import Spinner from '../components/Spinner/Spinner';
+import Spinner from '../components/Spinner/Spinner';
 
 const URL = 'http://api.openweathermap.org/data/2.5/weather?q=';
 const apiKey = '&appid=9c032a32e98184017aa37fbf6e37538a';
@@ -13,51 +13,66 @@ class App extends Component {
   state = {
     showCard: false,
     weatherData: [],
-    loading: false
+    loading: false,
+    searchValue: ''
   };
 
   componentWillMount() {
     this.getCity();
   }
-
-  // removeCityHandler = (index) => {
-  //   const weatherData = this.state.weatherData;
-  //   weatherData.slice(1, index)
-  //   this.setState({ weatherData })
-  // }
-
-  removeCityHandler = () => {
-    return console.log('You just clicked me');
-    const dataId = [...this.state.weatherData];
-  };
-
   render() {
     const {
-      state: { showCard, weatherData },
+      state: { showCard, weatherData, loading, searchValue },
       getWeather,
-      getCity
+      handleSearchInput
     } = this;
 
-    // if (loading) {
-    //   return <Spinner />;
-    // }
+    if (loading) {
+      return <Spinner />;
+    }
 
     return (
       <div className="main-wrapper">
-        <UserForm getWeather={getWeather} getCity={getCity} />
+        <UserForm
+          getWeather={getWeather}
+          handleSearchInput={handleSearchInput}
+          searchValue={searchValue}
+        />
         <CardContainer
           weatherData={weatherData}
           showCard={showCard}
           removeCityHandler={this.removeCityHandler}
-          // removeCityHandler={() => this.removeCityHandler(index)}
         />
       </div>
     );
   }
 
+  handleSearchInput = event => {
+    this.setState({ searchValue: event.target.value });
+  };
+
+  removeCityHandler = id => {
+    console.log('You just clicked me', id);
+    this.setState({ loading: true });
+    axios
+      .delete(`https://weather-app-add29.firebaseio.com/cities/${id}.json`)
+      .then(response => {
+        if (response.status === 200) {
+          return this.getCity();
+        }
+        this.setState({ loading: false });
+      });
+
+    // const dataId = [...this.state.weatherData];
+  };
+
   getWeather = e => {
     e.preventDefault();
-    const weatherCity = e.target.elements.weatherValue.value;
+    const {
+      state: { searchValue: weatherCity },
+      getCity
+    } = this;
+
     if (weatherCity) {
       axios
         .get(URL + weatherCity + apiKey)
@@ -82,15 +97,15 @@ class App extends Component {
             cityName
           };
 
-          console.log('CITYSTATUS', cityStatus);
-
           this.setState({ showCard: true });
 
           axios
             .post('https://weather-app-add29.firebaseio.com/cities.json', {
               cityStatus
             })
-            .then(res => {})
+            .then(res => {
+              if (res.status === 200) getCity();
+            })
             .catch(error => {
               console.log('ERROR', error);
             });
@@ -108,7 +123,6 @@ class App extends Component {
         `${'https://cors-anywhere.herokuapp.com/'}https://weather-app-add29.firebaseio.com/cities.json`
       )
       .then(response => {
-        // console.log('GETCITY RESPONSE ERROR', response);
         if (response.status !== 200) {
           throw Error(response.statusText);
         }

@@ -18,13 +18,14 @@ const CardContainer = ({ showCard, weatherData, removeCityHandler }) => (
     {weatherData.map(weatherCity => {
       return (
         <CityCard
+          key={weatherCity.id}
+          id={weatherCity.id}
           temp={weatherCity.weather}
           humidity={weatherCity.humidity}
           pressure={weatherCity.pressure}
           maxTemp={weatherCity.maxTemp}
           minTemp={weatherCity.minTemp}
           cityName={weatherCity.cityName}
-          key={weatherCity.id}
           removeCityHandler={removeCityHandler}
           // removeCityHandler={() removeCityHandler(index)}
         />
