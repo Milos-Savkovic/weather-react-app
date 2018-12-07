@@ -52,7 +52,6 @@ class App extends Component {
   };
 
   removeCityHandler = id => {
-    console.log('You just clicked me', id);
     this.setState({ loading: true });
     axios
       .delete(`https://weather-app-add29.firebaseio.com/cities/${id}.json`)
@@ -62,8 +61,6 @@ class App extends Component {
         }
         this.setState({ loading: false });
       });
-
-    // const dataId = [...this.state.weatherData];
   };
 
   getWeather = e => {
@@ -129,15 +126,9 @@ class App extends Component {
         return response;
       })
       .then(response => {
-        // console.log('GET CITY RESPONSE', response);
         const { data = null } = response;
         if (data) {
           const weatherData = Object.keys(data).map(key => {
-            // console.log('DATA [KEY]', data[key]);
-            // console.log(
-            //   'DATA KEY CITY STATUS PRESSURE PRESSURE',
-            //   data[key].cityStatus
-            // );
             return {
               id: key,
               weather: data[key].cityStatus.weather,
@@ -148,12 +139,7 @@ class App extends Component {
               cityName: data[key].cityStatus.cityName
             };
           });
-          // console.log('GET CITY WEATHERDATA', weatherData);
           this.setState({ weatherData: weatherData.reverse(), loading: false });
-          console.log(
-            'THIS STATE WEATHERDATA DATA WEATHERDATA',
-            this.state.weatherData
-          );
         }
       })
       .catch(error => {

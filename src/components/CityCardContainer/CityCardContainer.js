@@ -5,16 +5,6 @@ import CityCard from './CityCard/CityCard';
 
 const CardContainer = ({ showCard, weatherData, removeCityHandler }) => (
   <div className="container">
-    {/* { showCard ?
-   <CityCard
-        temp={temp}
-        humidity={humidity}
-        pressure={pressure}
-        maxTemp={maxTemp}
-        minTemp={minTemp}
-        cityName={cityName}
-      /> : null
-    } */}
     {weatherData.map(weatherCity => {
       return (
         <CityCard
@@ -27,7 +17,6 @@ const CardContainer = ({ showCard, weatherData, removeCityHandler }) => (
           minTemp={weatherCity.minTemp}
           cityName={weatherCity.cityName}
           removeCityHandler={removeCityHandler}
-          // removeCityHandler={() removeCityHandler(index)}
         />
       );
     })}

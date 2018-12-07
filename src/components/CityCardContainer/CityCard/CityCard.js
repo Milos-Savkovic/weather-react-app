@@ -14,15 +14,6 @@ const cityCard = ({
   removeCityHandler
 }) => (
   <div className="card-wrapper">
-    {/* //   <p style={{ display: 'flex' }}>City: {cityName} </p>
-  //   <ul>
-  //     <li>Temp: {temp}</li>
-  //     <li>Humidity: {humidity}</li>
-  //     <li>Pressure: {pressure}</li>
-  //     <li>MaxTemp: {maxTemp}</li>
-  //     <li>MinTemp: {minTemp}</li>
-  //   </ul>
-  // </div> */}
     <Card title={cityName} className="card">
       <p>Temp: {temp}</p>
       <p>Humidity: {humidity}</p>
